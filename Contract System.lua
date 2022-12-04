@@ -2,6 +2,7 @@
 --------------------------------------- ** Contract System ** ---------------------------------------
 -----------------------------------------------------------------------------------------------------
 --------------------------------- ** Author: V3ct0r @ PKOdev.NET ** ---------------------------------
+------------------------------- ** Revision: Angelix @ PKOdev.NET  ** -------------------------------
 -----------------------------------------------------------------------------------------------------
 ----- Version: 1.0 (01/12/2022) @ V3ct0r
 ----- * Public Version.
@@ -261,9 +262,9 @@ GetExp_PKM = function(Monster, Player)
     if not ContractSys.Conf.Enabled then
         return
     end
+	Player = TurnToCha(Player)
 	local MapName = GetChaMapName(Player)
 	
-	Player = TurnToCha(Player)
 	local ContractCount = CheckBagItem(Player, ContractSys.Conf.ItemID)
 	if (ContractCount > 0) then
 		local MonsterID = GetChaTypeID(Monster)
