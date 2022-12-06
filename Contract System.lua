@@ -18,7 +18,7 @@ ContractSys.Conf.Enabled = false	--  Enable/disable the system.
 ContractSys.Conf.ItemID = 05700		--  ItemID used in system.
 ContractSys.Conf.ItemType = 99		--	Item's type used.
 ContractSys.Conf.Limit = 5			--	Maximum amount of contracts a player can have at a single time.
-ContractSys.Conf.Random = true		--	Update only one contract even if they have several contracts for the same monster? If 'true', it will be at random. If 'false', it will update all.
+ContractSys.Conf.Random = false		--	Update only one contract even if they have several contracts for the same monster? If 'true', it will be at random. If 'false', it will update all.
 
 ContractSys.Conf.World.Enabled = true   --  Enable/disable getting random contracts from any place.
 
@@ -169,27 +169,14 @@ ContractSys.RewardHandler = function(Player, Item)
             end
         end
     end
-	local Chance = 0
-	for _, Reward in pairs(RewardList) do
-		if Reward.Allow then
-			Chance = Chance + (RewardList.Rate or 1)
-		end
+	local VarID, Reward = WeightedRandomnessHandler(RewardList)
+	print(VarID, Reward.ID)
+	if Reward.Gold ~= 0 then
+		AddMoney(Player, 0, Reward.Gold)
 	end
-	local R = math.random() * Chance
-	for _, Reward in pairs(RewardList) do
-		if R < Reward.Rate and Reward.Allow then
-			if Reward.Gold ~= 0 then
-				AddMoney(Player, 0, Reward.Gold)
-				break
-			end
-			if Reward.ID ~= 0 and GetItemName(Reward.ID) ~= 'Unknown' then
-                local Quantity = math.random(Reward.Min, Reward.Max)
-				GiveItem(Player, 0, Reward.ID, math.max(Quantity, 1), (Reward.Quality or 4))
-				break
-			end
-		else
-			R = R - Reward.Rate
-	    end
+	if Reward.ID ~= 0 and GetItemName(Reward.ID) ~= 'Unknown' then
+		local Quantity = math.random(Reward.Min, Reward.Max)
+		GiveItem(Player, 0, Reward.ID, math.max(Quantity, 1), (Reward.Quality or 4))
 	end
 end
 
@@ -299,20 +286,8 @@ ContractSys.SelectContract = function(Player)
     else
         MonsterList = ContractSys.Monsters.General
     end
-	local Chance = 0
-	for _, Monster in pairs(MonsterList) do
-		if Monster.Allow then
-			Chance = Chance + (Monster.Rate or 1)
-		end
-	end
-	local R = math.random() * Chance
-	for _, Monster in pairs(MonsterList) do
-		if R < Monster.Rate and Monster.Allow then
-			return Monster.ID, math.random(Monster.Min, Monster.Max)
-		else
-			R = R - Monster.Rate
-	    end
-	end
+	local _, Monster = WeightedRandomnessHandler(MonsterList)
+	return Monster.ID, math.random(Monster.Min, Monster.Max)
 end
 ContractSys.CreateContract = function(Player, TargetID, Amount)
 	if not ContractSys.Conf.Enabled then
@@ -359,4 +334,32 @@ ItemUse_ContractSys = function(Player, Item)
 		SystemNotice(Player, ContractSys.Text.Completed)
 		ContractSys.RewardHandler(Player, Item)
 	end
+end
+WeightedRandomnessHandler = function(Table)
+    for Num, Thing in pairs(Table) do
+        if Table[Num].Allow == nil then
+            Table[Num].Allow = true
+        end
+        Table[Num].ID = Table[Num].ID or 0
+        Table[Num].Rate = Table[Num].Rate or 1
+    end
+	local Sum = 0
+	for _, Thing in pairs(Table) do
+        if Thing.Allow and Thing.Rate >= 1 then
+			Sum = Sum + Thing.Rate
+		end
+	end
+    local VarID, Choice = nil, nil
+	local Index = math.random() * Sum
+	for Num, Thing in pairs(Table) do
+        if Thing.Allow and Thing.Rate >= 1 then
+            if Index < Thing.Rate then
+                VarID, Choice = Num, Thing
+                break
+            else
+                Index = Index - Thing.Rate
+            end
+        end
+	end
+    return VarID, Choice
 end
