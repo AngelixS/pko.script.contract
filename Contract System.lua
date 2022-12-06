@@ -14,9 +14,10 @@
 
 ContractSys = ContractSys or {Conf = {World = {}, Maps = {}}, Text = {}, Attr = {}, Monsters = {}, Rewards = {Maps = {}, Specific = {}}}
 
-ContractSys.Conf.Enabled = false     --  Enable/disable the system.
-ContractSys.Conf.ItemID = 07024     --  ItemID used in system.
-ContractSys.Conf.ItemType = 99
+ContractSys.Conf.Enabled = false	--  Enable/disable the system.
+ContractSys.Conf.ItemID = 07024		--  ItemID used in system.
+ContractSys.Conf.ItemType = 99		--	Item's type used.
+ContractSys.Conf.Limit = 5			--	Maximum amount of contracts a player can have at a single time.
 ContractSys.Conf.Random = true		--	Update only one contract even if they have several contracts for the same monster? If 'true', it will be at random. If 'false', it will update all.
 
 ContractSys.Conf.World.Enabled = true   --  Enable/disable getting random contracts from any place.
@@ -96,17 +97,6 @@ ContractSys.Monsters['puzzleworld2'] = ContractSys.Monsters['puzzleworld']
 --  When selecting a reward to handle out, it will first look if there's a monster specified in the "Specific" table.
 --  If no monster is found, it will then look through the "Maps" table, if none is found, it will choose a reward from "General".
 ContractSys.Rewards.General = {
-    {Allow = true, Gold = 0, ID = 11602, Min = 01, Max = 02, Quality = 004, Rate = 040},	--	Novice Heaven's Berry
-    {Allow = true, Gold = 0, ID = 11612, Min = 01, Max = 02, Quality = 004, Rate = 040},	--	Novice Charmed Berry
-    {Allow = true, Gold = 0, ID = 11622, Min = 01, Max = 02, Quality = 004, Rate = 040},	--	Novice Sweet Berry
-    {Allow = true, Gold = 0, ID = 11632, Min = 01, Max = 02, Quality = 004, Rate = 040},	--	Novice Fairy Berry
-
-    {Allow = true, Gold = 0, ID = 00222, Min = 01, Max = 01, Quality = 004, Rate = 020},	--	Snow Dragon Fruit
-    {Allow = true, Gold = 0, ID = 00223, Min = 01, Max = 01, Quality = 004, Rate = 020},	--	Icespire Plum
-    {Allow = true, Gold = 0, ID = 00224, Min = 01, Max = 01, Quality = 004, Rate = 020},	--	Zephyr Fish Floss
-    {Allow = true, Gold = 0, ID = 00225, Min = 01, Max = 01, Quality = 004, Rate = 020},	--	Argent Mango
-    {Allow = true, Gold = 0, ID = 00226, Min = 01, Max = 01, Quality = 004, Rate = 020},	--	Shaitan Biscuit
-
 	{Allow = true, Gold = 0, ID = 00860, Min = 01, Max = 01, Quality = 101, Rate = 010},	--	Gem of the Wind
 	{Allow = true, Gold = 0, ID = 00861, Min = 01, Max = 01, Quality = 101, Rate = 010},	--	Gem of Striking
 	{Allow = true, Gold = 0, ID = 00862, Min = 01, Max = 01, Quality = 101, Rate = 010},	--	Gem of Colossus
@@ -115,29 +105,6 @@ ContractSys.Rewards.General = {
 								}
 
 ContractSys.Rewards.Maps['abandonedcity'] = {
-	{Allow = true, Gold = 0, ID = 11603, Min = 01, Max = 03, Quality = 004, Rate = 160},	--	Heaven's Berry
-	{Allow = true, Gold = 0, ID = 11613, Min = 01, Max = 03, Quality = 004, Rate = 160},	--	Charmed Berry
-	{Allow = true, Gold = 0, ID = 11623, Min = 01, Max = 03, Quality = 004, Rate = 160},	--	Sweet Berry
-	{Allow = true, Gold = 0, ID = 11633, Min = 01, Max = 03, Quality = 004, Rate = 160},	--	Fairy Berry
-
-	{Allow = true, Gold = 0, ID = 00056, Min = 01, Max = 01, Quality = 101, Rate = 080},	--	Broken Gem of the Wind
-	{Allow = true, Gold = 0, ID = 00057, Min = 01, Max = 01, Quality = 101, Rate = 080},	--	Broken Gem of Striking
-	{Allow = true, Gold = 0, ID = 00058, Min = 01, Max = 01, Quality = 101, Rate = 080},	--	Broken Gem of Colossus
-	{Allow = true, Gold = 0, ID = 00059, Min = 01, Max = 01, Quality = 101, Rate = 080},	--	Broken Gem of Rage
-	{Allow = true, Gold = 0, ID = 00060, Min = 01, Max = 01, Quality = 101, Rate = 080},	--	Broken Gem of Soul
-
-	{Allow = true, Gold = 0, ID = 00068, Min = 01, Max = 01, Quality = 101, Rate = 040},	--	Cracked Gem of the Wind
-	{Allow = true, Gold = 0, ID = 00069, Min = 01, Max = 01, Quality = 101, Rate = 040},	--	Cracked Gem of Striking
-	{Allow = true, Gold = 0, ID = 00070, Min = 01, Max = 01, Quality = 101, Rate = 040},	--	Cracked Gem of Colossus
-	{Allow = true, Gold = 0, ID = 00071, Min = 01, Max = 01, Quality = 101, Rate = 040},	--	Cracked Gem of Rage
-	{Allow = true, Gold = 0, ID = 00072, Min = 01, Max = 01, Quality = 101, Rate = 040},	--	Cracked Gem of Soul
-
-	{Allow = true, Gold = 0, ID = 00090, Min = 01, Max = 01, Quality = 101, Rate = 020},	--	Chipped Gem of the Wind
-	{Allow = true, Gold = 0, ID = 00091, Min = 01, Max = 01, Quality = 101, Rate = 020},	--	Chipped Gem of Striking
-	{Allow = true, Gold = 0, ID = 00092, Min = 01, Max = 01, Quality = 101, Rate = 020},	--	Chipped Gem of Colossus
-	{Allow = true, Gold = 0, ID = 00093, Min = 01, Max = 01, Quality = 101, Rate = 020},	--	Chipped Gem of Rage
-	{Allow = true, Gold = 0, ID = 00094, Min = 01, Max = 01, Quality = 101, Rate = 020},	--	Chipped Gem of Soul
-
 	{Allow = true, Gold = 0, ID = 00860, Min = 01, Max = 01, Quality = 101, Rate = 010},	--	Gem of the Wind
 	{Allow = true, Gold = 0, ID = 00861, Min = 01, Max = 01, Quality = 101, Rate = 010},	--	Gem of Striking
 	{Allow = true, Gold = 0, ID = 00862, Min = 01, Max = 01, Quality = 101, Rate = 010},	--	Gem of Colossus
