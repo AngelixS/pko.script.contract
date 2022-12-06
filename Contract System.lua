@@ -15,7 +15,7 @@
 ContractSys = ContractSys or {Conf = {World = {}, Maps = {}}, Text = {}, Attr = {}, Monsters = {}, Rewards = {Maps = {}, Specific = {}}}
 
 ContractSys.Conf.Enabled = false	--  Enable/disable the system.
-ContractSys.Conf.ItemID = 07024		--  ItemID used in system.
+ContractSys.Conf.ItemID = 05700		--  ItemID used in system.
 ContractSys.Conf.ItemType = 99		--	Item's type used.
 ContractSys.Conf.Limit = 5			--	Maximum amount of contracts a player can have at a single time.
 ContractSys.Conf.Random = true		--	Update only one contract even if they have several contracts for the same monster? If 'true', it will be at random. If 'false', it will update all.
@@ -39,12 +39,13 @@ ContractSys.Text.Remaining = 'Contract: Remaining %s to hunt: %d / %d!'
 ContractSys.Text.Complete = 'Contract to hunt [%s] is complete!'
 ContractSys.Text.Unfinished = 'Contract is not complete yet. Killed [%s]: (%d / %d).'
 ContractSys.Text.Completed = 'You have successfully completed the contract, congratulations!'
+ContractSys.Text.LimitReach = 'You cannot have more than %d contracts active at the same time!'
 
 --  Monster Configuration.
 ContractSys.Monsters.General = {
-    {Allow = true, ID = 103, Min = 10, Max = 99, Rate = 001},	--	Forest Spirit
-	{Allow = true, ID = 075, Min = 10, Max = 99, Rate = 001},	--	Mystic Shrub
-	{Allow = true, ID = 185, Min = 10, Max = 99, Rate = 001},	--	Mystic Flower
+    {Allow = true, ID = 103, Min = 01, Max = 02, Rate = 001},	--	Forest Spirit
+	{Allow = true, ID = 075, Min = 01, Max = 02, Rate = 001},	--	Mystic Shrub
+	{Allow = true, ID = 185, Min = 01, Max = 02, Rate = 001},	--	Mystic Flower
                                 }
 ContractSys.Monsters['abandonedcity'] = {
 	{Allow = true, ID = 720, Min = 10, Max = 15, Rate = 080},	--	Elite Wailing Warrior
@@ -278,6 +279,10 @@ GetExp_PKM = function(Monster, Player)
 		end
 	end
     if ContractSys.Conf.World.Enabled then
+		if ContractCount >= ContractSys.Conf.Limit then
+			SystemNotice(Player, string.format(ContractSys.Text.LimitReach, ContractSys.Conf.Limit))
+			return
+		end
 		ContractSys.Conf.Maps[MapName] = ContractSys.Conf.Maps[MapName] or ContractSys.Conf.Maps['default']
 		local Random = math.random(1, 100)
         if ContractSys.Conf.Maps[MapName].Allow and Random <= ContractSys.Conf.Maps[MapName].Probability then
